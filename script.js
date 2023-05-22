@@ -46,8 +46,10 @@ const initializer = () =>{
         fontSize.appendChild(option)
     }
 
-   hightlightFormat(format)
-   hightlightAlign(alignBtn)
+    highlighter(alignBtn,true)
+    highlighter(spacingBtn,true)
+    highlighter(format,true)
+    highlighter(scriptBtn,true)
     
 }
 
@@ -78,35 +80,30 @@ linkBtn.addEventListener("click",()=>{
     }
 })
 
-const hightlightFormat = (className) =>{
-    className.forEach((element)=>{
-        element.addEventListener("click",()=>{
-            if(element.classList.contains("active")){
-                highlighterRemove(className);
-            }else{
-                element.classList.add("active");
-            }
-        });
-    });
-}
 
-const hightlightAlign = (className)=>{
-    className.forEach((element)=>{
-        element.addEventListener("click",(e)=>{
-           highlighterRemove(className)
-          });
-    });
-}
-const highlighterRemove = (className) =>{
-    className.forEach((element)=>{
-        element.addEventListener("click",()=>{
-            element.classList.remove("active");
-        })
-        element.addEventListener("click",()=>{
-            element.classList.toggle("active")
+const highlighter = (className , needsRemoval)=>{
+    className.forEach((btn)=>{
+        btn.addEventListener("click",()=>{
+            if(needsRemoval){
+                let alreadyActive = false;
+                if(btn.classList.contains("active")){
+                    alreadyActive = true;
+                }
+                highlighterRemove(className);
+                if(!alreadyActive){
+                    btn.classList.toggle("active")
+                }
+            }
         })
     })
 }
+const highlighterRemove = (className) =>{
+    className.forEach((button)=>{
+       button.classList.remove("active")
+    })
+}
+
+            
 window.onload = () =>{
     initializer();
 };
