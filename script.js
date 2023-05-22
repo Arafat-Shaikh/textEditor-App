@@ -3,7 +3,7 @@ const advanceBtn = document.querySelectorAll(".adv-option-button");
 const scriptBtn = document.querySelectorAll(".script");
 const alignBtn = document.querySelectorAll(".align");
 const spacingBtn = document.querySelectorAll(".spacing");
-const format = document.querySelector(".format");
+const format = document.querySelectorAll(".format");
 const fontName = document.getElementById("fontName");
 const fontSize = document.getElementById("fontSize");
 const linkBtn = document.getElementById("createLink");
@@ -32,9 +32,9 @@ let fontList = [
 ];
 
 const initializer = () =>{
-    fontList.forEach((element)=>{
+    fontList.map((value)=>{
         let option = document.createElement("option");
-        option.innerHTML = element;
+        option.innerHTML = value;
         option.value = option.innerHTML;
         fontName.appendChild(option);
     });
@@ -46,10 +46,8 @@ const initializer = () =>{
         fontSize.appendChild(option)
     }
 
-   highlighter(alignBtn,false)
-   highlighter(format,false)
-   highlighter(spacingBtn,false)
-   highlighter(alignBtn,false)
+   hightlightFormat(format)
+   hightlightAlign(alignBtn)
     
 }
 
@@ -66,12 +64,48 @@ optionBtn.forEach((element)=>{
 advanceBtn.forEach((element)=>{
     element.addEventListener("click",()=>{
         modifyText(element.id,false,element.value)
-        console.log(element.value)
     })
 })
 
-const highlighter = () =>{
+linkBtn.addEventListener("click",()=>{
+    const userInput = promp("Enter the Url");
+    if(/http/i.test(userInput)){
+        modifyText(linkBtn.id,false,userInput)
+    }
+    else{
+        userLink = "http://" + userLink;
+        modifyText(linkBtn.id,false,userInput)
+    }
+})
 
+const hightlightFormat = (className) =>{
+    className.forEach((element)=>{
+        element.addEventListener("click",()=>{
+            if(element.classList.contains("active")){
+                highlighterRemove(className);
+            }else{
+                element.classList.add("active");
+            }
+        });
+    });
+}
+
+const hightlightAlign = (className)=>{
+    className.forEach((element)=>{
+        element.addEventListener("click",(e)=>{
+           highlighterRemove(className)
+          });
+    });
+}
+const highlighterRemove = (className) =>{
+    className.forEach((element)=>{
+        element.addEventListener("click",()=>{
+            element.classList.remove("active");
+        })
+        element.addEventListener("click",()=>{
+            element.classList.toggle("active")
+        })
+    })
 }
 window.onload = () =>{
     initializer();
